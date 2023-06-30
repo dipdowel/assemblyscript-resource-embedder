@@ -1,44 +1,25 @@
-/**
- * @typedef {Object} ArgumentsMap
- * @property {?string} src - The source argument.
- * @property {?string} dest - The destination argument.
- * @property {?string} name - The name argument.
- * @property {?number} bit - The bit argument.
- */
+const { program } = require('commander');
+const {helpHeader, helpFooter} = require("./embed/embed-help");
 
-/**
- * Reads the command-line arguments and prints their values.
- * @returns {void}
- */
- function embed() {
-    const args = process.argv.slice(2);
-    /** @type {ArgumentsMap} */
-    const argumentsMap = {
-        src: null,
-        dest: null,
-        name: null,
-        bit: null,
-    };
 
-    args.forEach((arg) => {
-        const [key, value] = arg.split('=');
-        if (key && value) {
-            const argumentKey = key.replace('--', '');
-            if (argumentsMap.hasOwnProperty(argumentKey)) {
-                if (argumentKey === 'bit') {
-                    argumentsMap[argumentKey] = parseInt(value, 10);
-                } else {
-                    argumentsMap[argumentKey] = value;
-                }
-            }
-        }
-    });
 
-    console.log('Source:', argumentsMap.src);
-    console.log('Destination:', argumentsMap.dest);
-    console.log('Name:', argumentsMap.name);
-    console.log('Bit:', argumentsMap.bit);
-}
+program
+    .addHelpText('beforeAll', helpHeader )
+    .addHelpText('afterAll', helpFooter )
+    .requiredOption('--src <path>', 'Path to an existing resource file')
+    .requiredOption('--dest <path>', 'Path to the destination AsemblyScript file. It will overwrite an existing file, if any.')
+    .requiredOption('--name <const name>', 'Name of the exported constant with the content of the resource')
+    .requiredOption('--bit <8|16|32>', 'What kind of data type the resource should be stored as: 8, 16 or 32 bits.')
+    .addHelpCommand("help", "Embed resource into AssemblyScript file")
+    .parse(process.argv);
 
-// Call the function to read and print the CLI arguments
-embed();
+
+
+const { src, dest, name, bit } = program.opts();
+
+console.log('Source:', src);
+console.log('Destination:', dest);
+console.log('Name:', name);
+console.log('Bit:', bit);
+
+
