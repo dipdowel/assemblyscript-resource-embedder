@@ -1,3 +1,6 @@
+### User License for assemblyscript-resource-embedder
+All the files of this project are a subject to the MIT license that can be found in the LICENSE file in this repository.
+
 # Your starting point for a new AssemblyScript / WASM web project
 - This is a template for AssemblyScript projects that use [Parcel](https://parceljs.org/) as a bundler.
 - The template allows to have a working AssemblyScript web project up and running very quickly.
